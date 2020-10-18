@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Line, Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import numeral from "numeral";
 
 
@@ -71,11 +71,8 @@ const buildChartData = (data, casesType) => {
 
 }
 
-const LineGraph = ({ countryData, casesType, barChart, ...props }) => {
+const LineGraph = ({ casesType, ...props }) => {
     const [data, setData] = useState({});
-
-
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -94,30 +91,10 @@ const LineGraph = ({ countryData, casesType, barChart, ...props }) => {
     }, [casesType])
 
 
-
-
-
     return (
         <div className={props.className} >
-            {barChart ? (
-                <Bar
-                    data={{
-                        labels: ['Infected', 'Recovered', 'Deaths'],
-                        datasets: [
-                            {
-                                borderColor: "#CC1034",
-                                label: 'People',
-                                backgroundColor: ['rgba(255, 0, 0, 0.5)', 'rgba(0, 255, 0, 0.5)', 'rgba(255, 0, 0, 0.5)'],
-                                data: [countryData.cases, countryData.recovered, countryData.deaths],
-                            },
-                        ],
-                    }}
-                    options={{
-                        legend: { display: false },
-                        title: { display: true, text: `Current state in ${countryData.country}` },
-                    }}
-                />
-            ) : < Line
+            {data?.length > 0 && (
+                <Line
                     data={{
 
                         datasets: [
@@ -127,29 +104,12 @@ const LineGraph = ({ countryData, casesType, barChart, ...props }) => {
                                 data: data,
                             },
                         ],
-                    }
-                    }
+                    }}
                     options={options}
-                />}
+                />
+            )}
 
-            {/* {countryData && (<Bar
-                data={{
-                    labels: ['Infected', 'Recovered', 'Deaths'],
-                    datasets: [
-                        {
-                            borderColor: "#CC1034",
-                            label: 'People',
-                            backgroundColor: ['rgba(255, 0, 0, 0.5)', 'rgba(0, 255, 0, 0.5)', 'rgba(255, 0, 0, 0.5)'],
-                            data: [countryData.cases, countryData.recovered, countryData.deaths],
-                        },
-                    ],
-                }}
-                options={{
-                    legend: { display: false },
-                    title: { display: true, text: `Current state in ${countryData.country}` },
-                }}
-            />)
-            } */}
+
         </div>
     )
 }

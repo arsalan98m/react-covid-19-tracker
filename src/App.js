@@ -33,7 +33,6 @@ function App() {
   const [mapZoom, setMapZoom] = useState(3);
   const [mapCountries, setMapCountries] = useState([]);
   const [casesType, setCasesType] = useState('cases')
-  const [barChart, setBarChart] = useState(true);
 
   //useEffect = Runs a piese of code based on given condition
 
@@ -43,11 +42,11 @@ function App() {
       .then((response) => response.json())
       .then(data => {
         setCountryInfo(data);
-        setBarChart(false);
       })
   }, [])
 
   // Getting Dropdow list Countries name and table data
+
   useEffect(() => {
     // The Code inside here will run once when the component loads and not again
     // async -> send a request, wait for it, do something with info
@@ -96,11 +95,6 @@ function App() {
 
         setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
         setMapZoom(4);
-        if (countryCode === 'worldwide') {
-          setBarChart(false)
-        } else {
-          setBarChart(true);
-        }
       })
 
   }
@@ -154,7 +148,7 @@ function App() {
 
           {/* Graph */}
           <h3 className="app__graphTitle">Worldwide new {casesType}</h3>
-          <LineGraph barChart={barChart} countryData={countryInfo} className="app__graph" casesType={casesType} />
+          <LineGraph className="app__graph" casesType={casesType} />
 
         </CardContent>
       </Card>
